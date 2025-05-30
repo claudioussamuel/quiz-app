@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
+import 'package:quizeapp/service/user/firebase_cloud_storage.dart';
 import 'package:quizeapp/view/admin/notification_card.dart';
 import '../../modal/category.dart';
 import '../../theme/theme.dart';
 import '../../utils/device/device_utility.dart';
 import '../../utils/theme/theme.dart';
+import 'make_coordinator.dart';
 
 class UsersScreen extends StatefulWidget {
   const UsersScreen({super.key});
@@ -20,6 +24,31 @@ class _UsersScreenState extends State<UsersScreen> {
   String? _selectedCategoryId;
   List<Category> _categories = [];
   Category? _initialCategory;
+
+    final gmailSmtp = gmail("webofficerbruno@gmail.com","pwmo sggt yvex xqvt");
+
+      // send mail to user using smtp
+  sendMailFromGmail(String sender, sub, text) async{
+    final message = Message()
+    ..from = Address("webofficerbruno@gmail.com", "ICMS Support Team")
+    ..recipients.add(sender)
+    ..subject = sub
+    ..text = text;
+
+
+    try {
+      final sendReport = await send(message, gmailSmtp);
+      print("Message sent: $sendReport");
+    }on MailerException catch (e) {
+      print("Message not sent.");
+
+      for (var p in e.problems) {
+        print("Problem: ${p.code} : ${p.msg}");
+      }
+      
+    }
+  }
+
 
   void _fetchCategories() async {
     try {
@@ -100,7 +129,7 @@ class _UsersScreenState extends State<UsersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: _buildTitle(),
-        centerTitle: true,
+        
       ),
       body: Column(
         children: [
@@ -222,6 +251,54 @@ class _UsersScreenState extends State<UsersScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: NotificationItemCard(
+                        showTrailing: true,
+                        onTrailingPressed: () async{
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Make Coordinator'),
+                                content: Text('Are you sure you want to make ${userData['Firstname']} ${userData['Surname']} a coordinator?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                         // Create coordinator in Firestore
+        await FirebaseCloudStorage().changeUserRoleToCoordinator(userData['email']);
+     
+        await  sendMailFromGmail(
+          userData['email'],
+        "Successfully Add As A Coordinator", 
+        """
+Hello ${userData['Firstname']}, 
+
+Your account has been successfully upgraded to a **Coordinator** role on the ICMS App.
+
+Thank you for being a valued member of our platform.
+
+Best regards,  
+The ICMS Team
+
+""");
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Coordinator created successfully')),
+        );
+            Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Confirm'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                         isDarkMode: TDeviceUtils.getMode(context),
                         theme: TAppTheme.darkTheme,
                         firstName: userData['Firstname'] ?? '',

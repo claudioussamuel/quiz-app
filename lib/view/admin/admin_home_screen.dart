@@ -89,10 +89,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+           const SizedBox(height: 10),
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.textPrimaryColor,
@@ -163,6 +163,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     
       body: SafeArea(
         child: FutureBuilder(
           future: _fetchStatistics(),
@@ -190,43 +191,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Admin Dashboard",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              "Welcome back, Admin",
-                              style: Theme.of(context).textTheme.labelMedium,
-                            )
-                          ],
-                        ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: AppTheme.primaryColor,
-                          ),
-                          child: Icon(
-                            Iconsax.user,
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -317,13 +282,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  SizedBox(height: 10),
+                 const SizedBox(height: 10),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding:const EdgeInsets.symmetric(horizontal: 20),
                     child: GridView.count(
                       crossAxisCount: 2,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics:const NeverScrollableScrollPhysics(),
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
                       childAspectRatio: 1.2,

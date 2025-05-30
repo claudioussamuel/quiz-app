@@ -238,6 +238,20 @@ class FirebaseCloudStorage {
     });
   }
 
+    Future<void> createCoordinator({
+    required String firstName,
+    required String surName,
+    required String email,
+  }) async {
+    await notes.doc().set({
+      "role": "coordinator",
+      "email": email,
+      'Firstname': firstName,
+      'Surname': surName,
+    });
+  }
+
+
   createNewNote({required UserInfo user}) async {
     try {
       QuerySnapshot userDocs = await notes

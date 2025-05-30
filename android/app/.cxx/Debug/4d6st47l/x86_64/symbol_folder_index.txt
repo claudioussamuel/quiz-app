@@ -1,0 +1,1 @@
+/home/opoku/Documents/quiz-app/build/app/intermediates/cxx/Debug/4d6st47l/obj/x86_64

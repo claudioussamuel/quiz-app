@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:quizeapp/service/auth/bloc/auth_bloc.dart';
 import 'package:quizeapp/service/auth/firebase_auth_provider.dart';
 import 'package:quizeapp/service/page_index/bloc/page_index_bloc.dart';
@@ -27,7 +28,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+
   );
+  try {
+    await dotenv.load();
+  } catch (e) {
+    print("Warning: .env file not found. Using default configuration.");
+    // You can set default values here or continue without .env
+  }
+  
   runApp(const MyApp());
 }
 

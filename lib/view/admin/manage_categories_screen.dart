@@ -4,6 +4,7 @@ import 'package:quizeapp/modal/category.dart';
 
 import '../../theme/theme.dart';
 import 'add_category_screen.dart';
+import 'admin_home_screen.dart';
 import 'manage_quizzes_screen.dart';
 
 class ManageCategoriesScreen extends StatefulWidget {
@@ -19,6 +20,10 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminHomeScreen())),
+        ),
         title: Text(
           'Manage Cohort',
           style: Theme.of(

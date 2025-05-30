@@ -6,6 +6,7 @@ import 'package:quizeapp/modal/quiz.dart';
 
 import '../../theme/theme.dart';
 import 'add_quiz_screen.dart';
+import 'admin_home_screen.dart';
 import 'edit_quiz_screen.dart';
 
 class ManageQuizzesScreen extends StatefulWidget {
@@ -114,6 +115,10 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminHomeScreen())),
+        ),
         title: _buildTitle(),
         backgroundColor: AppTheme.backgroundColor,
         actions: [

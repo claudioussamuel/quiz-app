@@ -44,16 +44,16 @@ class _AdminBaseScreenState extends State<AdminBaseScreen> {
                 maxWidth: 840,
               ),
               child: Scaffold(
-                // appBar: AppBar(
-                //   title: Text(
-                //     "Exams App",
-                //     style: Theme.of(
-                //       context,
-                //     ).textTheme.titleLarge,
-                //   ),
-                //   centerTitle: true,
-                //   backgroundColor: AppTheme.primaryColor,
-                // ),
+                appBar: AppBar(
+                  title: Text(
+                    "Admin Dashboard",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge,
+                  ),
+                  centerTitle: true,
+                //  backgroundColor: AppTheme.primaryColor,
+                ),
                 drawer: Drawer(
                   child: ListView(
                     children: [
@@ -93,29 +93,7 @@ class _AdminBaseScreenState extends State<AdminBaseScreen> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                create: (context) => UserDataBloc(
-                                  FirebaseCloudStorage(),
-                                ),
-                                child: const MakeCoordinator(),
-                              ),
-                            ),
-                          );
-                        },
-                        child: const ListTile(
-                          leading: Icon(
-                            Iconsax.user,
-                          ),
-                          title: Text(
-                            "Make Coordinator",
-                          ),
-                        ),
-                      ),
+                   
                       InkWell(
                         onTap: () async {
                           final shouldLogout = await showLogOutDialog(

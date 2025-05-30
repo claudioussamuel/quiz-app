@@ -8,6 +8,7 @@ import 'package:quizeapp/view/admin/notification_card.dart';
 import '../../service/user/bloc/user_data_bloc.dart';
 import '../../service/user/bloc/user_data_event.dart';
 import '../../service/user/bloc/user_data_state.dart';
+import 'make_coordinator.dart';
 
 class CoordinatorScreen extends StatefulWidget {
   const CoordinatorScreen({super.key});
@@ -43,12 +44,18 @@ class _CoordinatorScreenState extends State<CoordinatorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Admin Dashboard",
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        centerTitle: true,
+      // appBar: AppBar(
+      //   title: Text(
+      //     "Admin Dashboard",
+      //     style: Theme.of(context).textTheme.titleMedium,
+      //   ),
+      //   centerTitle: true,
+      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () { 
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const MakeCoordinator()));
+        },
+        child: const Icon(Icons.add),
       ),
       body: BlocBuilder<UserDataBloc, UserDataState>(
         builder: (context, state) {
