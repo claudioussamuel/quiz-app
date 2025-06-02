@@ -1,9 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import '../../service/page_index/bloc/page_index_bloc.dart';
+import '../../service/user/bloc/user_data_bloc.dart';
 import '../../service/user/firebase_cloud_storage.dart';
+import '../../theme/theme.dart';
+import 'admin_base_screen.dart';
 
 class MakeCoordinator extends StatefulWidget {
   const MakeCoordinator({super.key});
@@ -17,6 +22,7 @@ class _MakeCoordinatorState extends State<MakeCoordinator> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
+  bool _isLoading = false;  // Add loading state
 
   // creating smtp server for gmail
   final gmailSmtp = gmail("webofficerbruno@gmail.com","pwmo sggt yvex xqvt");
@@ -54,29 +60,29 @@ class _MakeCoordinatorState extends State<MakeCoordinator> {
  
   void _handleSubmit() async {
     if (_formKey.currentState!.validate())  {
+      setState(() {
+        _isLoading = true;  // Start loading
+      });
+      
       try {
         FirebaseApp tempApp = await Firebase.initializeApp(name: "flutter", options: Firebase.app().options);
 
         UserCredential newUser = await FirebaseAuth.instanceFor(app: tempApp).createUserWithEmailAndPassword(
           email: _emailController.text.trim(), 
           password: "&1234!@#^&",
-
-
         );
-
-      
 
         // Create coordinator in Firestore
         await FirebaseCloudStorage().createCoordinator(
           firstName: _firstNameController.text.trim(),
           surName: _lastNameController.text.trim(),
           email: _emailController.text.trim(),
-          );
+        );
 
-        await  sendMailFromGmail(
+        await sendMailFromGmail(
           _emailController.text.trim(),
-        "Successfully Add As A Coordinator", 
-        """
+          "Successfully Add As A Coordinator", 
+          """
 Hello ${_firstNameController.text.trim()}, 
 
 Your account has been successfully upgraded to a **Coordinator** role on the ICMS App.
@@ -88,14 +94,39 @@ The ICMS Team
 
 """);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Coordinator created successfully')),
-        );
-            Navigator.of(context).pop();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Coordinator created successfully')),
+          );
+         Navigator.push(
+            context,
+             MaterialPageRoute(
+              builder: (context) => MultiBlocProvider(
+                providers: [
+                  BlocProvider<PageIndexBloc>(
+                    create: (context) => PageIndexBloc(),
+                  ),
+                  BlocProvider<UserDataBloc>(
+                    create: (context) => UserDataBloc(FirebaseCloudStorage()),
+                  ),
+                ],
+                child: const AdminBaseScreen(),
+              ),
+            ),
+          );
+        }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${e.toString()}')),
+          );
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;  // Stop loading
+          });
+        }
       }
     }
   }
@@ -108,6 +139,7 @@ The ICMS Team
       appBar: AppBar(
         title:  Text('Create Coordinator',style: Theme.of(context).textTheme.titleLarge,),
         centerTitle: true,
+       
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -162,13 +194,17 @@ The ICMS Team
                 },
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _handleSubmit,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
-                ),
-                child: const Text('Sign Up'),
-              ),
+              _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ElevatedButton(
+                    onPressed: _handleSubmit,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                    ),
+                    child: const Text('Sign Up'),
+                  ),
             ],
           ),
         ),

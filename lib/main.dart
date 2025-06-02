@@ -18,7 +18,6 @@ import 'view/admin/admin_base_screen.dart';
 import 'view/admin/admin_home_screen.dart';
 import 'view/authentication/forgot_password_view.dart';
 import 'view/authentication/login_view.dart';
-import 'view/authentication/sign_up_page.dart';
 import 'view/authentication/verify_email.dart';
 import 'view/coordinatior/home_screen.dart';
 import 'view/user/base_screen.dart';
@@ -124,9 +123,7 @@ class HomePage extends StatelessWidget {
         //  ProfileScreen();
       } else if (state is AuthStateForgotPassword) {
         return const ForgotPasswordView();
-      } else if (state is AuthStateRegistering) {
-        return const SignUp();
-      }
+      } 
       if (state is StateEditUserInfo) {
         return const BasicScreen();
       } else {

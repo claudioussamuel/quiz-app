@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizeapp/modal/category.dart';
 import 'package:quizeapp/modal/quiz.dart';
+import 'package:quizeapp/service/page_index/bloc/page_index_bloc.dart';
+import 'package:quizeapp/service/user/bloc/user_data_bloc.dart';
+import 'package:quizeapp/service/user/firebase_cloud_storage.dart';
+import 'package:quizeapp/view/admin/admin_base_screen.dart';
 
 import '../../theme/theme.dart';
 import 'add_quiz_screen.dart';
@@ -115,9 +120,24 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppTheme.primaryColor),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminHomeScreen())),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MultiBlocProvider(
+                providers: [
+                  BlocProvider<PageIndexBloc>(
+                    create: (context) => PageIndexBloc(),
+                  ),
+                  BlocProvider<UserDataBloc>(
+                    create: (context) => UserDataBloc(FirebaseCloudStorage()),
+                  ),
+                ],
+                child: const AdminBaseScreen(),
+              ),
+            ),
+          ),
         ),
         title: _buildTitle(),
         backgroundColor: AppTheme.backgroundColor,

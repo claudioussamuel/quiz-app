@@ -225,13 +225,11 @@ class FirebaseCloudStorage {
     required String coordinator,
     required String email,
     required String program,
-    required String cohort,
   }) async {
     await notes.doc().set({
       "role": "user",
       "email": email,
       "program": program,
-      "cohort": cohort,
       "coordinator": coordinator,
       'Firstname': firstName,
       'Surname': surName,

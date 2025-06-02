@@ -186,21 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const SizedBox(
                                   height: TSizes.spaceBtwSections,
                                 ),
-                                //Login
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () {
-                                      context.read<AuthBloc>().add(
-                                            const AuthEventShouldRegister(),
-                                          );
-                                    },
-                                    child: const Text(TText.createAccount),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: TSizes.spaceBtwSections,
-                                ),
+                               
+                               
                               ],
                             ),
                           ),

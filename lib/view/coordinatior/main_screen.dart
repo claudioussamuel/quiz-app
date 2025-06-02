@@ -45,15 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Coordinator Dashboard",
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium,
-        ),
-        centerTitle: true,
-      ),
+  
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

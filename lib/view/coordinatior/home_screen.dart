@@ -7,6 +7,7 @@ import '../../service/auth/bloc/auth_event.dart';
 import '../../service/page_index/bloc/page_index_bloc.dart';
 import '../../service/page_index/bloc/page_index_event.dart';
 import '../../service/page_index/bloc/page_index_state.dart';
+import '../../theme/theme.dart';
 import '../../utils/dialogs/logout_dialog.dart';
 import '../user/profile_screen.dart';
 import 'main_screen.dart';
@@ -36,16 +37,16 @@ class _CoordinatorHomeScreenState extends State<CoordinatorHomeScreen> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 840),
               child: Scaffold(
-                // appBar: AppBar(
-                //   title: Text(
-                //     "Exams App",
-                //     style: Theme.of(
-                //       context,
-                //     ).textTheme.titleLarge,
-                //   ),
-                //   centerTitle: true,
-                //   backgroundColor: AppTheme.primaryColor,
-                // ),
+                appBar: AppBar(
+                  title: Text(
+                    "Coordinator App",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge,
+                  ),
+                  centerTitle: true,
+                 
+                ),
                 drawer: Drawer(
                   child: ListView(
                     children: [

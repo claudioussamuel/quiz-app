@@ -1,0 +1,1 @@
+/home/opoku/Documents/quiz-app/build/app/intermediates/cxx/RelWithDebInfo/h3h1o4z2/obj/arm64-v8a
