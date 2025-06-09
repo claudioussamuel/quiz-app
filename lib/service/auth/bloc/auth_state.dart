@@ -60,6 +60,18 @@ class StateEditUserInfo extends AuthState {
   });
 }
 
+class StateEditAdminInfo extends AuthState {
+  const StateEditAdminInfo({
+    required super.isLoading,
+  });
+}
+
+class StateEditCoordinatorInfo extends AuthState {
+  const StateEditCoordinatorInfo({
+    required super.isLoading,
+  });
+}
+
 class StateEditUserInfoLoading extends AuthState {
   const StateEditUserInfoLoading({
     required super.isLoading,

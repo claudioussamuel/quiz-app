@@ -225,14 +225,42 @@ class FirebaseCloudStorage {
     required String coordinator,
     required String email,
     required String program,
-    required String cohort,
   }) async {
+    // Fetch the current highest id
+    int newId = 1;
+    try {
+      final snapshot =
+          await notes.orderBy('id', descending: true).limit(1).get();
+      if (snapshot.docs.isNotEmpty) {
+        final highestId = snapshot.docs.first.data()['id'];
+        if (highestId is int) {
+          newId = highestId + 1;
+        }
+      }
+    } catch (e) {
+      // If error, fallback to 1
+      newId = 1;
+    }
     await notes.doc().set({
       "role": "user",
       "email": email,
       "program": program,
-      "cohort": cohort,
       "coordinator": coordinator,
+      'Firstname': firstName,
+      'Surname': surName,
+      "year": DateTime.now().year,
+      "id": newId,
+    });
+  }
+
+  Future<void> createCoordinator({
+    required String firstName,
+    required String surName,
+    required String email,
+  }) async {
+    await notes.doc().set({
+      "role": "coordinator",
+      "email": email,
       'Firstname': firstName,
       'Surname': surName,
     });
@@ -262,7 +290,7 @@ class FirebaseCloudStorage {
     }
   }
 
-  Future<void> changeUserRoleToCoordinator(String email) async {
+  Future<void> changeUserRoleToCoordinator(String email, String role) async {
     try {
       QuerySnapshot userDocs = await notes
           .where(
@@ -274,7 +302,7 @@ class FirebaseCloudStorage {
       if (userDocs.docs.isNotEmpty) {
         DocumentReference userDoc = userDocs.docs.first.reference;
         await userDoc.update({
-          'role': 'coordinator',
+          'role': role,
         });
       } else {
         print(

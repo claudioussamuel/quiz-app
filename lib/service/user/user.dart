@@ -25,6 +25,9 @@ class UserInfo {
   final String? membership; //32
   final int? debit;
   final String? program; //32
+  final String? coordinator;
+  final int? id;
+  final int? year;
 
   // membershipIdConst
 
@@ -48,7 +51,10 @@ class UserInfo {
       this.userId_,
       this.country_,
       this.membership,
-      this.program});
+      this.program,
+      this.coordinator,
+      this.id,
+      this.year});
 
   Map<String, dynamic> toMap() {
     return {
@@ -97,6 +103,9 @@ class UserInfo {
       membership: map[membershipConst] ?? "",
       program: map["program"] ?? "",
       debit: map[debitConst] ?? 0,
+      coordinator: map["coordinator"] ?? "",
+      id: map["id"],
+      year: map["year"],
     );
   }
 
@@ -120,6 +129,9 @@ class UserInfo {
         userId_ = snapshot.data()?[userIdConst] ?? "",
         country_ = snapshot.data()?[countryConst] ?? "Ghana",
         membership = snapshot.data()?[membershipConst] ?? "",
-        program = snapshot.data()?["program"] ?? "",
-        debit = snapshot.data()?[debitConst] ?? 0;
+        program = snapshot.data()?['program'] ?? "",
+        debit = snapshot.data()?[debitConst] ?? 0,
+        coordinator = snapshot.data()?['coordinator'] ?? "",
+        id = snapshot.data()?['id'],
+        year = snapshot.data()?['year'];
 }

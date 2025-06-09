@@ -33,6 +33,22 @@ class EventEditUserInfo extends AuthEvent {
   });
 }
 
+class EventAdminEditUserInfo extends AuthEvent {
+  final UserInfo userInfo;
+
+  const EventAdminEditUserInfo({
+    required this.userInfo,
+  });
+}
+
+class EventCoordinatorEditUserInfo extends AuthEvent {
+  final UserInfo userInfo;
+
+  const EventCoordinatorEditUserInfo({
+    required this.userInfo,
+  });
+}
+
 class EventDeleteUserInfo extends AuthEvent {
   final String userId;
 

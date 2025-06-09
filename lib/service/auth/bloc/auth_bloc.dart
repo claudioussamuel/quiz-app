@@ -166,6 +166,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const StateEditUserInfo(isLoading: false));
     });
 
+    on<EventAdminEditUserInfo>((event, emit) async {
+      FirebaseCloudStorage firebaseCloudStorage = FirebaseCloudStorage();
+      emit(const StateEditUserInfoLoading(isLoading: true));
+      await firebaseCloudStorage.updateNote(user: event.userInfo);
+
+      emit(const StateEditAdminInfo(isLoading: false));
+    });
+
+    on<EventCoordinatorEditUserInfo>((event, emit) async {
+      FirebaseCloudStorage firebaseCloudStorage = FirebaseCloudStorage();
+      emit(const StateEditUserInfoLoading(isLoading: true));
+      await firebaseCloudStorage.updateNote(user: event.userInfo);
+
+      emit(const StateEditCoordinatorInfo(isLoading: false));
+    });
+
     on<AuthEventForgotPassword>((event, emit) async {
       emit(
         const AuthStateForgotPassword(

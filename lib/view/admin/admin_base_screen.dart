@@ -15,6 +15,7 @@ import '../../service/user/bloc/user_data_bloc.dart';
 import '../../utils/dialogs/logout_dialog.dart';
 import 'exam_score_screen.dart';
 import 'make_coordinator.dart';
+import 'profile_screen.dart';
 import 'user_scree.dart';
 
 class AdminBaseScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _AdminBaseScreenState extends State<AdminBaseScreen> {
     const AdminHomeScreen(),
     const UsersScreen(),
     const CoordinatorScreen(),
-    const ProfileScreen(),
+    const AdminProfileScreen(),
   ];
 
   @override
@@ -44,16 +45,16 @@ class _AdminBaseScreenState extends State<AdminBaseScreen> {
                 maxWidth: 840,
               ),
               child: Scaffold(
-                // appBar: AppBar(
-                //   title: Text(
-                //     "Exams App",
-                //     style: Theme.of(
-                //       context,
-                //     ).textTheme.titleLarge,
-                //   ),
-                //   centerTitle: true,
-                //   backgroundColor: AppTheme.primaryColor,
-                // ),
+                appBar: AppBar(
+                  title: Text(
+                    "Admin Dashboard",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleLarge,
+                  ),
+                  centerTitle: true,
+                  //  backgroundColor: AppTheme.primaryColor,
+                ),
                 drawer: Drawer(
                   child: ListView(
                     children: [
@@ -93,29 +94,7 @@ class _AdminBaseScreenState extends State<AdminBaseScreen> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                create: (context) => UserDataBloc(
-                                  FirebaseCloudStorage(),
-                                ),
-                                child: const MakeCoordinator(),
-                              ),
-                            ),
-                          );
-                        },
-                        child: const ListTile(
-                          leading: Icon(
-                            Iconsax.user,
-                          ),
-                          title: Text(
-                            "Make Coordinator",
-                          ),
-                        ),
-                      ),
+
                       InkWell(
                         onTap: () async {
                           final shouldLogout = await showLogOutDialog(

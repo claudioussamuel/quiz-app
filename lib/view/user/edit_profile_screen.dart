@@ -664,44 +664,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 const SizedBox(
                                   height: TSizes.spaceBtwItems,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(
-                                        color: !dark
-                                            ? Colors.white
-                                            : Colors.black.withOpacity(
-                                                0.3,
-                                              ),
-                                      )),
-                                  child: DropdownButton<String>(
-                                    value: selectedTertiary,
-                                    iconSize: 36,
-                                    isExpanded: true,
-                                    underline: const SizedBox.shrink(),
-                                    icon: const Icon(Icons.arrow_drop_down),
-                                    hint: const Text(
-                                        'Select your tertiary institution'),
-                                    items: [
-                                      'University Of Ghana (Legon)',
-                                      'Kwame Nkrumah University of Science and Technology (KNUST)',
-                                      'University of Energy and Natural Resources (UENR)',
-                                      'University of Mines and Technology (UMaT)',
-                                      'University for Development Studies (UDS)',
-                                      'Radford University College',
-                                    ].map((String institution) {
-                                      return DropdownMenuItem<String>(
-                                        value: institution,
-                                        child: Text(institution),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        selectedTertiary = newValue;
-                                      });
-                                    },
+                                TextFormField(
+                                  controller: tertiary,
+                                  decoration: const InputDecoration(
+                                    labelText: "Tertiary Institution",
+                                    prefixIcon: Icon(
+                                      Iconsax.direct_right,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -810,13 +779,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       firstDate: DateTime(1800),
       lastDate: DateTime.now(),
       initialDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.year,
     );
 
     if (selected != null) {
       graduatedYear = selected;
       setState(() {
-        selectDate = selected.toString();
-        dateGraduationController.text = "${selected.toLocal()}".split(' ')[0];
+        selectDate = selected.year.toString();
+        dateGraduationController.text = selected.year.toString();
       });
     }
   }

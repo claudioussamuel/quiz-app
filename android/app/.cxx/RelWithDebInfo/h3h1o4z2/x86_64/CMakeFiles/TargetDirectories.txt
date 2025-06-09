@@ -1,0 +1,2 @@
+/home/opoku/Documents/quiz-app/android/app/.cxx/RelWithDebInfo/h3h1o4z2/x86_64/CMakeFiles/edit_cache.dir
+/home/opoku/Documents/quiz-app/android/app/.cxx/RelWithDebInfo/h3h1o4z2/x86_64/CMakeFiles/rebuild_cache.dir

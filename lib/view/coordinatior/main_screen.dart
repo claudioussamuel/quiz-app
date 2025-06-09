@@ -8,6 +8,7 @@ import '../../utils/device/device_utility.dart';
 import '../../utils/theme/theme.dart';
 import '../admin/notification_card.dart';
 import 'user_creation_screen.dart'; // Import the new screen
+import 'user_info_coordinator.dart'; // Import the new screen
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -45,15 +46,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Coordinator Dashboard",
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium,
-        ),
-        centerTitle: true,
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -95,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextField(
                     controller: _searchController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Search Your Referrals',
                       border: OutlineInputBorder(),
                     ),
@@ -108,14 +100,24 @@ class _MainScreenState extends State<MainScreen> {
                       final user = filteredUsers[index];
                       return Padding(
                         padding: const EdgeInsets.all(8),
-                        child: NotificationItemCard(
-                          isDarkMode: TDeviceUtils.getMode(context),
-                          theme: TAppTheme.darkTheme,
-                          firstName: user.firstName_,
-                          surname: user.surname_,
-                          email: user.email_,
-                          image: user
-                              .imageUrl_, // Assuming user has an imageUrl_ property
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserInfoCoordinator(
+                                    userEmail: user.email_ ?? ""),
+                              ),
+                            );
+                          },
+                          child: NotificationItemCard(
+                            isDarkMode: TDeviceUtils.getMode(context),
+                            theme: TAppTheme.darkTheme,
+                            firstName: user.firstName_,
+                            surname: user.surname_,
+                            email: user.email_,
+                            image: user.imageUrl_,
+                          ),
                         ),
                       );
                     },
